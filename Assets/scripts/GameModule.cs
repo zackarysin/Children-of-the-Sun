@@ -40,6 +40,8 @@ public class GameModule : Zac.ZacGOSingleton<GameModule>
     {
         base.Start();
         PlacementModule.Generate(0, 100);
+        PlacementModule.Generate(1, 1, true);
+        PlacementModule.Generate(2, 1, true);
     }
 	
 	// Update is called once per frame
@@ -62,6 +64,8 @@ public class GameModule : Zac.ZacGOSingleton<GameModule>
         //        // Do something with the object that was hit by the raycast.
         //    }
         //}
+
+
 
     }
 }

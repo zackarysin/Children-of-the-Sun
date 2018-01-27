@@ -10,7 +10,7 @@ public class PlacementModule : Zac.ZacGOSingleton<PlacementModule> {
         establishZacSingleton(this);
     }
 
-    protected void randomPlacement(Agent _toBePlaceAgent)
+    protected bool randomPlacementOnce(Agent _toBePlaceAgent)
     {
         float rayShootOriginDist = PlanetTerrain.MaxTerrainHeight;
 
@@ -18,7 +18,7 @@ public class PlacementModule : Zac.ZacGOSingleton<PlacementModule> {
         pos = pos.normalized;
 
         RaycastHit hit;
-        
+
         Ray ray = new Ray(pos * rayShootOriginDist, -pos);
 
         if (Physics.Raycast(ray, out hit))
@@ -30,29 +30,44 @@ public class PlacementModule : Zac.ZacGOSingleton<PlacementModule> {
             //Debug.Log(hitHeight);
 
             // prevent underwater agent
-            if(hitHeight <= PlanetTerrain.SeaHeight + 0.05f)
+            if (hitHeight <= PlanetTerrain.SeaHeight + 0.05f)
             {
-                Destroy(_toBePlaceAgent.gameObject);
-                return;
+                return false;
             }
 
-            Agent newTree = _toBePlaceAgent;
+            _toBePlaceAgent.transform.SetParent(Environment.Instance.transform);
+            _toBePlaceAgent.transform.position = hitPoint;
+            _toBePlaceAgent.transform.up = (_toBePlaceAgent.transform.position - Planet.Instance.transform.position).normalized;
 
-            newTree.transform.position = hitPoint;
-            newTree.transform.up = (newTree.transform.position - Planet.Instance.transform.position).normalized;
-
-            // Do something with the object that was hit by the raycast.
+            return true;
         }
-
-
+        else
+        {
+            return false;
+        }
     }
 
-    public static void Generate(int agent_id, int num = 1)
+    protected void randomPlacement(Agent _toBePlaceAgent, bool _guranteePlacement = false)
+    {
+        if (_guranteePlacement)
+        {
+            while (!randomPlacementOnce(_toBePlaceAgent)) ;
+        }
+        else
+        {
+            if (!randomPlacementOnce(_toBePlaceAgent))
+            {
+                Destroy(_toBePlaceAgent.gameObject);
+            }
+        }
+    }
+
+    public static void Generate(int agent_id, int num = 1, bool _isGuranteePlacement = false)
     {
         for(int i=0; i<num; i++)
         {
             Agent generatedAgent = AgentModule.GenerateAgent(agent_id);
-            instance.randomPlacement(generatedAgent);
+            instance.randomPlacement(generatedAgent, _isGuranteePlacement);
         }
        
     }
