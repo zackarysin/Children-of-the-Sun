@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Agent : MonoBehaviour {
+public class Agent : Zac.ZacGObj {
 
     #region Description
 
@@ -27,7 +27,7 @@ public class Agent : MonoBehaviour {
     protected GameObject model;
 
     // Use this for initialization
-    void Start () {
+    protected override void Start () {
         if (isCouldMove)
         {
             StartCoroutine(wandering());
@@ -80,6 +80,7 @@ public class Agent : MonoBehaviour {
 
         //transform.forward = (target - transform.position).normalized;
         transform.LookAt(target, transform.localPosition.normalized);
+        atLookChange();
 
         for (;;)
         {
@@ -90,6 +91,7 @@ public class Agent : MonoBehaviour {
             yield return null;
             //Planet.ApplyGravityToAgent(this);
             transform.LookAt(target, transform.localPosition.normalized);
+            //atLookChange();
 
             if ((transform.position - target).sqrMagnitude <= 0.2f * 0.2f)
             {
@@ -101,10 +103,21 @@ public class Agent : MonoBehaviour {
         
     }
 
+    protected virtual void atLookChange()
+    {
 
-    public void SetStartingStates(GameObject _model)
+    }
+
+    protected override void set()
+    {
+        //base.set();
+        rb = GetComponent<Rigidbody>();
+    }
+
+    public virtual void SetStartingStates(GameObject _model)
     {
         model = _model;
-        rb = GetComponent<Rigidbody>();
+        
+        ReportSet();
     }
 }

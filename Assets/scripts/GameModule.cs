@@ -49,8 +49,8 @@ public class GameModule : Zac.ZacGOSingleton<GameModule>
     {
         base.Start();
         PlacementModule.Generate(0, 100);
-        PlacementModule.Generate(1, 1, true);
-        PlacementModule.Generate(2, 1, true);
+        PlacementModule.Generate(1, 2, true);
+        //PlacementModule.Generate(2, 1, true);
 
         // No tech stage
 
