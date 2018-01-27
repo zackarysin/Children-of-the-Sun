@@ -39,4 +39,14 @@ public class Planet : Zac.ZacGOSingleton<Planet> {
 	void Update () {
 		
 	}
+
+    public static void ApplyGravityToAgent(Agent _agent)
+    {
+        Vector3 centerOutward = _agent.transform.localPosition.normalized;
+
+        _agent.transform.up = centerOutward;
+        _agent.Rb.MovePosition(-centerOutward * Time.deltaTime * 10);
+        
+    }
+
 }

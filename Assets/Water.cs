@@ -4,6 +4,15 @@ using UnityEngine;
 
 public class Water : Zac.ZacGOSingleton<Water> {
 
+    [SerializeField]
+    protected AnimationCurve[] seaWaveCurves;
+    [SerializeField]
+    protected float waveMultiplier = 1.0f;
+    [SerializeField]
+    protected float waveFreqMul = 1.0f;
+
+    protected float timePassed = 0.0f;
+
     protected float seaLevelHeight;
     public static float SeaLevelHeight
     {
@@ -27,6 +36,14 @@ public class Water : Zac.ZacGOSingleton<Water> {
 	
 	// Update is called once per frame
 	void Update () {
-		
-	}
+        timePassed += Time.deltaTime;
+
+        float x = seaLevelHeight * 2 + seaWaveCurves[0].Evaluate(timePassed * waveFreqMul + 0.0f) * waveMultiplier;
+        float y = seaLevelHeight * 2 + seaWaveCurves[1].Evaluate(timePassed * waveFreqMul + 0.5f) * waveMultiplier;
+        float z = seaLevelHeight * 2 + seaWaveCurves[2].Evaluate(timePassed * waveFreqMul + 0.2f) * waveMultiplier;
+
+        transform.localScale = new Vector3(x, y, z);
+
+        
+    }
 }
