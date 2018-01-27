@@ -45,7 +45,7 @@ public class Planet : Zac.ZacGOSingleton<Planet> {
         Vector3 centerOutward = _agent.transform.localPosition.normalized;
 
         _agent.transform.up = centerOutward;
-        _agent.Rb.MovePosition(-centerOutward * Time.deltaTime * 10);
+        _agent.Rb.MovePosition(_agent.transform.localPosition - centerOutward * Time.deltaTime * 0.01f);
         
     }
 

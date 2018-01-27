@@ -20,6 +20,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4310748764174470}
   - component: {fileID: 114009832716132114}
+  - component: {fileID: 54991621598439892}
+  - component: {fileID: 136995696283246488}
   m_Layer: 0
   m_Name: Tsumtsum_f
   m_TagString: Untagged
@@ -40,6 +42,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &54991621598439892
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1392790624203288}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0
 --- !u!114 &114009832716132114
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -51,3 +68,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e0fdc3d528dbde4fa16b76496195b4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isCouldMove: 1
+  moveSpeed: 1
+  wanderSpace: 1
+--- !u!136 &136995696283246488
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1392790624203288}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.1
+  m_Height: 0.37
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.19, z: 0}

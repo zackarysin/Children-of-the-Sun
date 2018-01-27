@@ -12,7 +12,7 @@ public class PlacementModule : Zac.ZacGOSingleton<PlacementModule> {
 
     protected bool randomPlacementOnce(Agent _toBePlaceAgent)
     {
-        float rayShootOriginDist = PlanetTerrain.MaxTerrainHeight;
+        float rayShootOriginDist = PlanetTerrain.MaxTerrainHeight + 1.0f;
 
         Vector3 pos = new Vector3(Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f));
         pos = pos.normalized;
@@ -72,6 +72,38 @@ public class PlacementModule : Zac.ZacGOSingleton<PlacementModule> {
        
     }
 
+
+    public static bool FindTerrainSurfece(Vector3 _unitDir, out float _surfaceHeight)
+    {
+        float rayShootOriginDist = PlanetTerrain.MaxTerrainHeight + 1.0f;
+
+        Vector3 pos = _unitDir;
+        pos = pos.normalized;
+
+        RaycastHit hit;
+
+        Ray ray = new Ray(pos * rayShootOriginDist, -pos);
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            Vector3 hitPoint = hit.point;
+
+            float hitHeight = (hitPoint - Planet.Instance.transform.position).magnitude;
+
+            _surfaceHeight = hitHeight;
+
+            if (hitHeight <= PlanetTerrain.SeaHeight + 0.05f)
+            {
+                return false;
+            }
+            return true;
+        }
+        else
+        {
+            _surfaceHeight = 0;
+            return false;
+        }
+    }
 
 
 }
