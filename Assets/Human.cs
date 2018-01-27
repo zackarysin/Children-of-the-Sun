@@ -5,6 +5,11 @@ using UnityEngine.UI;
 
 public class Human : Agent {
 
+    [SerializeField]
+    protected float thinkStepTime = 1.5f;
+    [SerializeField]
+    protected float thinkStepTimeSalt = 0.5f;
+
     protected Image speechBubble;
     protected Image speechBubbleContent;
     protected Canvas myCanvas;
@@ -17,10 +22,29 @@ public class Human : Agent {
         speechBubbleContent = speechBubble.transform.Find("speechBubbleContent").GetComponent<Image>();
     }
 
+    protected float GetThisThinkStepTime()
+    {
+        return Random.Range(-thinkStepTimeSalt, thinkStepTimeSalt) + thinkStepTime;
+    }
+
+    protected IEnumerator ThinkLooping()
+    {
+        while (true) {
+            speechBubbleContent.sprite = SpeechModule.SpeechBubblesInfos[0].Sprite;
+            yield return new WaitForSeconds(GetThisThinkStepTime());
+            speechBubbleContent.sprite = SpeechModule.SpeechBubblesInfos[1].Sprite;
+            yield return new WaitForSeconds(GetThisThinkStepTime());
+            speechBubbleContent.sprite = SpeechModule.SpeechBubblesInfos[2].Sprite;
+            yield return new WaitForSeconds(GetThisThinkStepTime());
+            GameModule.AddTechPoints(1);
+        }
+    }
+
     // Use this for initialization
     protected override void Start()
     {
         base.Start();
+        StartCoroutine(ThinkLooping());
     }
 
     protected void speechBubbleFaceCamera()

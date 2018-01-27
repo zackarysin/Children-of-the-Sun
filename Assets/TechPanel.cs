@@ -7,6 +7,8 @@ public class TechPanel : Zac.ZacGOSingleton<TechPanel> {
 
     protected Transform techList;
     protected Vector3 techListPos;
+    protected Text techPointText;
+    protected Button techBtn;
 
     protected bool isTechListShown
     {
@@ -25,7 +27,9 @@ public class TechPanel : Zac.ZacGOSingleton<TechPanel> {
         //base.set();
         establishZacSingleton(this);
         techList = transform.Find("TechList");
+        techBtn = transform.Find("TechBtn").GetComponent<Button>();
         techListPos = techList.localPosition;
+        techPointText = techBtn.transform.Find("techPointText").GetComponent<Text>();
 
         techList.gameObject.SetActive(false);
     }
@@ -62,6 +66,11 @@ public class TechPanel : Zac.ZacGOSingleton<TechPanel> {
         }, from, to, 0.25f);
         descr.setEaseOutCubic();
 
+    }
+
+    public static void ChangeTechPointValue(int _idx)
+    {
+        instance.techPointText.text = _idx.ToString();
     }
 
 }

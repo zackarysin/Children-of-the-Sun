@@ -55,7 +55,12 @@ public class GameModule : Zac.ZacGOSingleton<GameModule>
         // No tech stage
 
         CaptureEnergy(2);
+        ChangeBrainPowerValue(2);
         UpdateEnergyValues();
+        TechPanel.ChangeTechPointValue(0);
+
+        //TechPanel.ChangeTechPointValue(techPointValue);
+
         //UICanvas.ChangeBrainPowerValue(instance.c);
     }
 	
@@ -98,9 +103,23 @@ public class GameModule : Zac.ZacGOSingleton<GameModule>
         UICanvas.ChangeCapturedEnergyValue(instance.capturedEnergyValue);
     }
 
+    public static void ChangeBrainPowerValue(int _value)
+    {
+        instance.brainPowerValue = _value;
+       
+
+    }
+
     public static void UseTechPoints(int _value)
     {
         instance.techPointValue -= _value;
+        TechPanel.ChangeTechPointValue(instance.techPointValue);
+    }
+
+    public static void AddTechPoints(int _value)
+    {
+        instance.techPointValue += _value;
+        TechPanel.ChangeTechPointValue(instance.techPointValue);
     }
 
 }
