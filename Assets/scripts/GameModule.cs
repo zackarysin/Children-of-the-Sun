@@ -4,6 +4,20 @@ using UnityEngine;
 
 public class GameModule : Zac.ZacGOSingleton<GameModule>
 {
+    #region States
+
+    protected bool isGamePaused = false;
+    public static bool IsGamePaused
+    {
+        get
+        {
+            return instance.isGamePaused;
+        }
+    }
+
+    #endregion
+
+
     [SerializeField]
     protected GameMainCamera mainCamera;
     public static GameMainCamera MainCamera

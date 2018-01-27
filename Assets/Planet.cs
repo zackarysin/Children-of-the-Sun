@@ -6,6 +6,7 @@ public class Planet : Zac.ZacGOSingleton<Planet> {
 
     protected PlanetTerrain planetTerrain;
     protected Water water;
+    protected CloudSystem cloudSystem;
 
     public static Planet Instance
     {
@@ -21,10 +22,12 @@ public class Planet : Zac.ZacGOSingleton<Planet> {
 
         planetTerrain = GetComponentInChildren<PlanetTerrain>();
         water = GetComponentInChildren<Water>();
+        cloudSystem = GetComponentInChildren<CloudSystem>();
 
         planetTerrain.ReportSet();
         water.ReportSet();
         planetTerrain.SetStartingStates();
+        cloudSystem.SetStartingStates(this);
     }
 
     // Use this for initialization
