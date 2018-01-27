@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Planet : Zac.ZacGOSingleton<Planet> {
 
+    protected PlanetTerrain planetTerrain;
+
     public static Planet Instance
     {
         get
@@ -15,6 +17,8 @@ public class Planet : Zac.ZacGOSingleton<Planet> {
     protected override void set()
     {
         establishZacSingleton(this);
+        planetTerrain = GetComponentInChildren<PlanetTerrain>();
+        planetTerrain.SetStartingStates();
     }
 
     // Use this for initialization
