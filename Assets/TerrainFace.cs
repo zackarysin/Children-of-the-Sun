@@ -48,7 +48,8 @@ public class TerrainFace : MonoBehaviour {
             for (int y = 0; y < PlanetTerrain.FaceResolution; y++)
             {
                 Vector3 basePos = PlanetTerrain.BaseVoxelConnectionPoss[f, x, y];
-                Vector3 newVertex = basePos * PlanetTerrain.GenerateGroundHeight(basePos);
+                float groundHeight = PlanetTerrain.GenerateGroundHeight(basePos);
+                Vector3 newVertex = basePos * groundHeight;
                 //Vector3 newVertex = basePos;
 
                 vertices.Add(newVertex);

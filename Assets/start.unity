@@ -691,10 +691,10 @@ MonoBehaviour:
   isAutoSet: 1
   pfb_terrainFace: {fileID: 114713528217012596, guid: f1fd10ae42df3c647a2a1fbaccecc967,
     type: 2}
-  faceResolution: 20
+  faceResolution: 30
   surfaceDepth: 20
   octave: 3
-  noisePosMultiplier: 2
+  noisePosMultiplier: 300
   generationSeed: {x: 500, y: 500, z: 500}
   noiseFrequency: 0.005
   noiseHeight: 10
