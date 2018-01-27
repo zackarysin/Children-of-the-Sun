@@ -14,6 +14,17 @@ public class AgentInfo
             return agent;
         }
     }
+
+    [SerializeField]
+    protected GameObject[] models;
+    public GameObject[] Models
+    {
+        get
+        {
+            return models;
+        }
+    }
+
     [SerializeField]
     protected string name;
     public string Name
@@ -48,14 +59,29 @@ public class AgentModule : Zac.ZacGOSingleton<AgentModule> {
     void Start () {
 		
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update()
+    {
 
 
 
+    }
 
+    public static Agent GenerateAgent(int _agent_id)
+    {
+        AgentInfo agentInfo = AgentInfos[_agent_id];
 
+        Agent newAgent = Instantiate<Agent>(agentInfo.Agent);
 
-	}
+        int randomModelIdx = Random.Range(0, agentInfo.Models.Length);
+        GameObject model = Instantiate<GameObject>(agentInfo.Models[randomModelIdx]);
+
+        model.transform.SetParent(newAgent.transform, false);
+        model.transform.localPosition = Vector3.zero;
+        newAgent.SetStartingStates(model);
+
+        return newAgent;
+
+    }
 }

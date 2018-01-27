@@ -18,33 +18,36 @@ public class GameModule : Zac.ZacGOSingleton<GameModule>
     protected override void set()
     {
         establishZacSingleton(this);
+        GameObject.Find("Planet").GetComponent<Planet>().ReportSet();
     }
 
-	// Use this for initialization
-	void Start () {
-		
-	}
+    // Use this for initialization
+    protected override void Start()
+    {
+        base.Start();
+        PlacementModule.Generate(0, 100);
+    }
 	
 	// Update is called once per frame
 	void Update () {
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            RaycastHit hit;
-            Ray ray = GameModule.MainCamera.Camera.ScreenPointToRay(Input.mousePosition);
+        //if (Input.GetMouseButtonDown(0))
+        //{
+        //    RaycastHit hit;
+        //    Ray ray = GameModule.MainCamera.Camera.ScreenPointToRay(Input.mousePosition);
 
-            if (Physics.Raycast(ray, out hit))
-            {
-                Vector3 hitPoint = hit.point;
+        //    if (Physics.Raycast(ray, out hit))
+        //    {
+        //        Vector3 hitPoint = hit.point;
 
-                Agent newTree = Instantiate<Agent>(AgentModule.AgentInfos[AgentModule.Tree_ID].Agent);
+        //        Agent newTree = Instantiate<Agent>(AgentModule.AgentInfos[AgentModule.Tree_ID].Agent);
 
-                newTree.transform.position = hitPoint;
-                newTree.transform.up = (newTree.transform.position - Planet.Instance.transform.position).normalized;
+        //        newTree.transform.position = hitPoint;
+        //        newTree.transform.up = (newTree.transform.position - Planet.Instance.transform.position).normalized;
 
-                // Do something with the object that was hit by the raycast.
-            }
-        }
+        //        // Do something with the object that was hit by the raycast.
+        //    }
+        //}
 
     }
 }

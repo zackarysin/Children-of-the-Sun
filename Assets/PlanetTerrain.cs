@@ -54,6 +54,27 @@ public class PlanetTerrain : Zac.ZacGOSingleton<PlanetTerrain>
 
     [SerializeField]
     protected float surfaceDepth = 20;
+    public static float SurfaceDepth
+    {
+        get
+        {
+            return instance.surfaceDepth;
+        }
+    }
+    public static float MaxTerrainHeight
+    {
+        get
+        {
+            return SurfaceDepth + NoiseHeight;
+        }
+    }
+    public static float SeaHeight
+    {
+        get
+        {
+            return Water.SeaLevelHeight;
+        }
+    }
     [SerializeField]
     protected int octave = 3;
     [SerializeField]
@@ -65,6 +86,13 @@ public class PlanetTerrain : Zac.ZacGOSingleton<PlanetTerrain>
     protected float noiseFrequency = 0.005f;
     [SerializeField]
     protected float noiseHeight = 10;
+    public static float NoiseHeight
+    {
+        get
+        {
+            return instance.noiseHeight;
+        }
+    }
     [SerializeField]
     protected float genNormalizedExp = 5;
 

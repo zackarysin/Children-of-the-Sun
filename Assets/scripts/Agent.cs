@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class Agent : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
+    protected GameObject model;
+
+    // Use this for initialization
+    void Start () {
 		
 	}
 	
@@ -13,4 +15,9 @@ public class Agent : MonoBehaviour {
 	void Update () {
 		
 	}
+
+    public void SetStartingStates(GameObject _model)
+    {
+        model = _model;
+    }
 }

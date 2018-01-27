@@ -18,6 +18,7 @@ public class TerrainFace : MonoBehaviour {
     protected List<Vector3> vertices = new List<Vector3>();
     protected List<Vector3> normals = new List<Vector3>();
     protected List<int> triangles = new List<int>();
+    protected List<Color> colors = new List<Color>();
 
     protected MeshFilter meshFilter;
     protected MeshRenderer meshRenderer;
@@ -50,9 +51,31 @@ public class TerrainFace : MonoBehaviour {
                 Vector3 basePos = PlanetTerrain.BaseVoxelConnectionPoss[f, x, y];
                 float groundHeight = PlanetTerrain.GenerateGroundHeight(basePos);
                 Vector3 newVertex = basePos * groundHeight;
-                //Vector3 newVertex = basePos;
 
                 vertices.Add(newVertex);
+                colors.Add(Color.white);
+
+                //if(x < PlanetTerrain.FaceResolution - 1 && y < PlanetTerrain.FaceResolution - 1)
+                //{
+                //    Vector3 basePos_top = PlanetTerrain.BaseVoxelConnectionPoss[f, x, y+1];
+                //    Vector3 basePos_right = PlanetTerrain.BaseVoxelConnectionPoss[f, x+1, y];
+
+                //    basePos_top = (basePos_top + basePos) / 2.0f;
+                //    basePos_right = (basePos_right + basePos) / 2.0f;
+
+                //    float basePos_top_height = PlanetTerrain.GenerateGroundHeight(basePos_top.normalized);
+                //    float basePos_right_height = PlanetTerrain.GenerateGroundHeight(basePos_right.normalized);
+
+                //    basePos_top = basePos_top * basePos_top_height;
+                //    basePos_right = basePos_right * basePos_right_height;
+
+                //    normals.Add(Vector3.Cross((basePos_top - basePos).normalized, (basePos - basePos_right).normalized));
+                //}
+                //else
+                //{
+                //    normals.Add(basePos);
+                //}
+
                 normals.Add(basePos);
                 verticesToIndex[x, y] = vertices.Count-1;
             }
@@ -76,6 +99,8 @@ public class TerrainFace : MonoBehaviour {
 
         Mesh mesh = new Mesh();
         mesh.vertices = vertices.ToArray();
+        mesh.colors = colors.ToArray();
+        //mesh.normals = normals.ToArray();
         mesh.triangles = triangles.ToArray();
         mesh.RecalculateNormals();
 
