@@ -6,6 +6,15 @@ public class GameModule : Zac.ZacGOSingleton<GameModule>
 {
     #region States
 
+    [SerializeField]
+    protected int naturalEnergyValue = 200000;
+    [SerializeField]
+    protected int capturedEnergyValue = 0;
+    [SerializeField]
+    protected int brainPowerValue = 0;
+
+    protected int techPointValue = 0;
+
     protected bool isGamePaused = false;
     public static bool IsGamePaused
     {
@@ -42,6 +51,12 @@ public class GameModule : Zac.ZacGOSingleton<GameModule>
         PlacementModule.Generate(0, 100);
         PlacementModule.Generate(1, 1, true);
         PlacementModule.Generate(2, 1, true);
+
+        // No tech stage
+
+        CaptureEnergy(2);
+        UpdateEnergyValues();
+        //UICanvas.ChangeBrainPowerValue(instance.c);
     }
 	
 	// Update is called once per frame
@@ -65,7 +80,27 @@ public class GameModule : Zac.ZacGOSingleton<GameModule>
         //    }
         //}
 
-
-
     }
+
+    public static void UpdateEnergyValues()
+    {
+        UICanvas.ChangeNaturalEnergyValue(instance.naturalEnergyValue);
+        UICanvas.ChangeCapturedEnergyValue(instance.capturedEnergyValue);
+        UICanvas.ChangeBrainPowerValue(instance.brainPowerValue);
+    }
+
+    public static void CaptureEnergy(int _value)
+    {
+        instance.naturalEnergyValue -= _value;
+        instance.capturedEnergyValue += _value;
+
+        UICanvas.ChangeNaturalEnergyValue(instance.naturalEnergyValue);
+        UICanvas.ChangeCapturedEnergyValue(instance.capturedEnergyValue);
+    }
+
+    public static void UseTechPoints(int _value)
+    {
+        instance.techPointValue -= _value;
+    }
+
 }
