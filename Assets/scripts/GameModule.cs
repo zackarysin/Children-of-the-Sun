@@ -14,6 +14,13 @@ public class GameModule : Zac.ZacGOSingleton<GameModule>
     protected int brainPowerValue = 0;
 
     protected int techPointValue = 0;
+    public static int TechPointValue
+    {
+        get
+        {
+            return instance.techPointValue;
+        }
+    }
 
     protected bool isGamePaused = false;
     public static bool IsGamePaused
@@ -36,7 +43,6 @@ public class GameModule : Zac.ZacGOSingleton<GameModule>
             return instance.mainCamera;
         }
     }
-
 
     protected override void set()
     {

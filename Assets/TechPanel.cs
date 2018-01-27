@@ -9,6 +9,9 @@ public class TechPanel : Zac.ZacGOSingleton<TechPanel> {
     protected Vector3 techListPos;
     protected Text techPointText;
     protected Button techBtn;
+    protected GridLayoutGroup techGridLayout;
+
+    protected Button[] inventTechButtons;
 
     protected bool isTechListShown
     {
@@ -30,8 +33,31 @@ public class TechPanel : Zac.ZacGOSingleton<TechPanel> {
         techBtn = transform.Find("TechBtn").GetComponent<Button>();
         techListPos = techList.localPosition;
         techPointText = techBtn.transform.Find("techPointText").GetComponent<Text>();
+        techGridLayout = techList.GetComponentInChildren<GridLayoutGroup>();
 
         techList.gameObject.SetActive(false);
+
+        inventTechButtons = new Button[TechModule.TechInfos.Length];
+
+        for(int i=0; i< inventTechButtons.Length; i++)
+        {
+            inventTechButtons[i] = techGridLayout.transform.Find(i.ToString()).GetComponent<Button>();
+            int idxCache = i;
+            inventTechButtons[i].onClick.AddListener(() =>
+            {
+                handleOnInventTechButtonClicked(idxCache);
+            });
+        }
+
+    }
+
+    protected void handleOnInventTechButtonClicked(int _techIdx)
+    {
+        if(TechModule.TechInfos[_techIdx].TechCost <= GameModule.TechPointValue)
+        {
+            TechModule.InventTech(_techIdx);
+        }
+
     }
 
 

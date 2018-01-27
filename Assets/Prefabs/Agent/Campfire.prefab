@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4335947325572596}
   - component: {fileID: 114157647297232164}
   m_Layer: 0
-  m_Name: Torch
+  m_Name: Campfire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -51,6 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e0fdc3d528dbde4fa16b76496195b4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isAutoSet: 1
   isCouldMove: 0
   moveSpeed: 1
   wanderSpace: 1

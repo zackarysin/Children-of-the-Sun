@@ -33,6 +33,13 @@ public class TechModule : Zac.ZacGOSingleton<TechModule> {
 
     [SerializeField]
     protected TechInfo[] techInfos;
+    public static TechInfo[] TechInfos
+    {
+        get
+        {
+            return instance.techInfos;
+        }
+    }
 
 	// Use this for initialization
 	void Start () {
@@ -44,12 +51,19 @@ public class TechModule : Zac.ZacGOSingleton<TechModule> {
 		
 	}
 
-    public void InventTech(int _techID)
+    public static void InventTech(int _techID)
     {
-        TechInfo thisTech = techInfos[_techID];
+        TechInfo thisTech = instance.techInfos[_techID];
         GameModule.CaptureEnergy(thisTech.EnergyCaptured);
         GameModule.UseTechPoints(thisTech.TechCost);
         thisTech.isInvented = true;
+
+        if(_techID == 0)
+        {
+            PlacementModule.Generate(2, 4, true);
+            PlacementModule.Generate(1, 4, true);
+        }
+
     }
 
     public static bool IsTechInvented(int _techID)
@@ -57,5 +71,10 @@ public class TechModule : Zac.ZacGOSingleton<TechModule> {
         return instance.techInfos[_techID].isInvented;
     }
 
+    protected override void set()
+    {
+        //base.set();
+        establishZacSingleton(this);
+    }
 
 }
