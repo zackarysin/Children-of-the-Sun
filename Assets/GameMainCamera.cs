@@ -22,6 +22,14 @@ public class GameMainCamera : Zac.ZacGObj {
     [SerializeField]
     protected Transform camRefPos;
 
+    [SerializeField]
+    protected Transform camXAxis;
+    [SerializeField]
+    protected Transform camZAxis;
+
+    [SerializeField]
+    protected float midMouseBtnDragMul = 10.0f;
+
     protected Vector3 mv_humord_previousPoint;
     protected bool mv_humord_isHasPreviousPoint;
 
@@ -39,8 +47,38 @@ public class GameMainCamera : Zac.ZacGObj {
 
     protected Quaternion camHolderRotCache;
 
+
+    protected void handleUIModuleOnMiddleDrag(Vector2 _dragNomDelta)
+    {
+
+        Vector2 _drag = _dragNomDelta;
+        _drag.x = _dragNomDelta.x * Screen.width * Time.deltaTime * midMouseBtnDragMul;
+        _drag.y = _dragNomDelta.y * Screen.height * Time.deltaTime * midMouseBtnDragMul;
+
+        float newX = camXAxis.localEulerAngles.x;
+        float newZ = camZAxis.localEulerAngles.z;
+
+        newX %= 360.0f;
+
+        newX += _drag.y;// * Time.deltaTime;
+        newZ += _drag.x;
+
+        camXAxis.localEulerAngles = new Vector3(newX, camXAxis.localEulerAngles.y, camXAxis.localEulerAngles.z);
+        camZAxis.localEulerAngles = new Vector3(camZAxis.localEulerAngles.x, camZAxis.localEulerAngles.y, newZ);
+
+        //constraintCamAngle();
+    }
+
+    Vector2 previousMousePos;// = Input.mousePosition;
+
     // Update is called once per frame
     void Update () {
+
+        if (Input.GetMouseButton(2))
+        {
+            Vector2 currentMousePos = Input.mousePosition;
+            handleUIModuleOnMiddleDrag((previousMousePos - currentMousePos));
+        }
 
         if (Input.GetMouseButton(1))
         {
@@ -99,5 +137,7 @@ public class GameMainCamera : Zac.ZacGObj {
 
         crtDepth += Input.GetAxis("Mouse ScrollWheel");
         camHolder.localPosition = camHolder.localPosition.normalized * crtDepth;
+
+        previousMousePos = Input.mousePosition;
     }
 }
