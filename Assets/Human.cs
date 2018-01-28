@@ -22,6 +22,7 @@ public class Human : Agent {
     protected Image speechBubble;
     protected Image speechBubbleContent;
     protected Canvas myCanvas;
+    protected AudioSource audioSourceForBubble;
 
     protected override void set()
     {
@@ -29,7 +30,7 @@ public class Human : Agent {
         myCanvas = GetComponentInChildren<Canvas>();
         speechBubble = myCanvas.transform.Find("speechBubble").GetComponent<Image>();
         speechBubbleContent = speechBubble.transform.Find("speechBubbleContent").GetComponent<Image>();
-
+        audioSourceForBubble = GetComponent<AudioSource>();
         humanPopulation += 1;
     }
 
@@ -113,16 +114,28 @@ public class Human : Agent {
             LTDescr ltdescr = null;
             speechBubble.transform.localScale = Vector3.zero;
             ltdescr = LeanTween.scale(speechBubble.gameObject, Vector3.one, 0.2f);
+            ltdescr.setOnComplete(() =>
+            {
+                audioSourceForBubble.Play();
+            });
             ltdescr.setEaseOutBack();
             speechBubbleContent.sprite = SpeechModule.SpeechBubblesInfos[firstStepIdx].Sprite;
             yield return new WaitForSeconds(GetThisThinkStepTime());
             speechBubble.transform.localScale = Vector3.zero;
             ltdescr = LeanTween.scale(speechBubble.gameObject, Vector3.one, 0.2f);
+            ltdescr.setOnComplete(() =>
+            {
+                audioSourceForBubble.Play();
+            });
             ltdescr.setEaseOutBack();
             speechBubbleContent.sprite = SpeechModule.SpeechBubblesInfos[secondStepIdx].Sprite;
             yield return new WaitForSeconds(GetThisThinkStepTime());
             speechBubble.transform.localScale = Vector3.zero;
             ltdescr = LeanTween.scale(speechBubble.gameObject, Vector3.one, 0.2f);
+            ltdescr.setOnComplete(() =>
+            {
+                audioSourceForBubble.Play();
+            });
             ltdescr.setEaseOutBack();
             speechBubbleContent.sprite = SpeechModule.SpeechBubblesInfos[thirdStepIdx].Sprite;
             yield return new WaitForSeconds(GetThisThinkStepTime());
