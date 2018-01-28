@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class DemoModule : MonoBehaviour {
 
+    [SerializeField]
+    protected bool isOff = true;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -11,9 +14,11 @@ public class DemoModule : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            TechModule.InventTech(1);
+        if (!isOff) { 
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                TechModule.InventTech(1);
+            }
         }
 	}
 }

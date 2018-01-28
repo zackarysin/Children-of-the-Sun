@@ -136,6 +136,7 @@ public class GameMainCamera : Zac.ZacGObj {
         }
 
         crtDepth += Input.GetAxis("Mouse ScrollWheel");
+        crtDepth -= Input.GetAxis("Vertical");
         camHolder.localPosition = camHolder.localPosition.normalized * crtDepth;
 
         previousMousePos = Input.mousePosition;
