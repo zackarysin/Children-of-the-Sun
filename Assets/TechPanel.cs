@@ -49,6 +49,8 @@ public class TechPanel : Zac.ZacGOSingleton<TechPanel> {
             {
                 handleOnInventTechButtonClicked(idxCache);
             });
+
+            inventTechButtons[i].Button.GetComponentInChildren<Text>().text = TechModule.TechInfos[i].TechCost.ToString();
         }
 
     }

@@ -89,7 +89,7 @@ public class GameModule : Zac.ZacGOSingleton<GameModule>
 
         //Debug.Log(Random.Range(0.0f, 1.0f) + " " + TechModule.TechInfos[TechModule.CrtTechLevel].PopulationGrowthPerSecond * Time.deltaTime);
 
-        if (Random.Range(0.0f, 1.0f) < TechModule.TechInfos[TechModule.CrtTechLevel].PopulationGrowthPerSecond * Time.deltaTime)
+        if (Input.GetKeyDown(KeyCode.G) || Random.Range(0.0f, 1.0f) < TechModule.TechInfos[TechModule.CrtTechLevel].PopulationGrowthPerSecond * Time.deltaTime)
         {
             //Debug.Log(Random.Range(0.0f, 1.0f));
             //Debug.Log(TechModule.TechInfos[TechModule.CrtTechLevel].PopulationGrowthPerSecond * Time.deltaTime);

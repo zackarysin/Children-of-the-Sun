@@ -41,11 +41,90 @@ public class Human : Agent {
     protected IEnumerator ThinkLooping()
     {
         while (true) {
-            speechBubbleContent.sprite = SpeechModule.SpeechBubblesInfos[0].Sprite;
+
+            int firstStepIdx = 0;
+            int secondStepIdx = 1;
+            int thirdStepIdx = 2;
+
+            if (TechModule.CrtTechLevel == 1)
+            {
+                secondStepIdx = 3;
+            }
+            else if(TechModule.CrtTechLevel == 2)
+            {
+                if(Random.Range(0.0f, 1.0f) <= 0.5f)
+                {
+                    firstStepIdx = 0;
+                    secondStepIdx = 3;
+                }
+                else
+                {
+                    firstStepIdx = 6;
+                    secondStepIdx = 3;
+                }
+                
+            }
+            else if (TechModule.CrtTechLevel == 3)
+            {
+                float value = Random.Range(0.0f, 1.0f);
+
+                if (value <= 0.3f)
+                {
+                    firstStepIdx = 0;
+                    secondStepIdx = 4;
+                }
+                else if (value <= 0.6f)
+                {
+                    firstStepIdx = 6;
+                    secondStepIdx = 3;
+                }
+                else
+                {
+                    firstStepIdx = 4;
+                    secondStepIdx = 5;
+                }
+            }
+            else if (TechModule.CrtTechLevel == 4)
+            {
+                float value = Random.Range(0.0f, 1.0f);
+
+                if (value <= 0.2f)
+                {
+                    firstStepIdx = 0;
+                    secondStepIdx = 4;
+                }
+                else if (value <= 0.4f)
+                {
+                    firstStepIdx = 6;
+                    secondStepIdx = 3;
+                }
+                else if (value <= 0.6f)
+                {
+                    firstStepIdx = 4;
+                    secondStepIdx = 5;
+                }
+                else
+                {
+                    firstStepIdx = 7;
+                    secondStepIdx = 8;
+                }
+            }
+
+            LTDescr ltdescr = null;
+            speechBubble.transform.localScale = Vector3.zero;
+            ltdescr = LeanTween.scale(speechBubble.gameObject, Vector3.one, 0.2f);
+            ltdescr.setEaseOutBack();
+            speechBubbleContent.sprite = SpeechModule.SpeechBubblesInfos[firstStepIdx].Sprite;
             yield return new WaitForSeconds(GetThisThinkStepTime());
-            speechBubbleContent.sprite = SpeechModule.SpeechBubblesInfos[1].Sprite;
+            speechBubble.transform.localScale = Vector3.zero;
+            ltdescr = LeanTween.scale(speechBubble.gameObject, Vector3.one, 0.2f);
+            ltdescr.setEaseOutBack();
+            speechBubbleContent.sprite = SpeechModule.SpeechBubblesInfos[secondStepIdx].Sprite;
             yield return new WaitForSeconds(GetThisThinkStepTime());
-            speechBubbleContent.sprite = SpeechModule.SpeechBubblesInfos[2].Sprite;
+            speechBubble.transform.localScale = Vector3.zero;
+            ltdescr = LeanTween.scale(speechBubble.gameObject, Vector3.one, 0.2f);
+            ltdescr.setEaseOutBack();
+            speechBubbleContent.sprite = SpeechModule.SpeechBubblesInfos[thirdStepIdx].Sprite;
             yield return new WaitForSeconds(GetThisThinkStepTime());
             GameModule.AddTechPoints(1);
         }
