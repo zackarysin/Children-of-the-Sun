@@ -7,8 +7,10 @@ public class GameModule : Zac.ZacGOSingleton<GameModule>
     #region States
 
     [SerializeField]
-    protected int naturalEnergyValue = 200000;
+    protected int ori_naturalEnergyValue = 200000;
+    protected int naturalEnergyValue;
     [SerializeField]
+    protected int ori_capturedEnergyValue = 0;
     protected int capturedEnergyValue = 0;
     [SerializeField]
     protected int brainPowerValue = 0;
@@ -59,19 +61,68 @@ public class GameModule : Zac.ZacGOSingleton<GameModule>
         //PlacementModule.Generate(2, 1, true);
 
         // No tech stage
-
-        CaptureEnergy(2);
+        TechModule.InventTech(0);
+        //CaptureEnergy(2);
+        ChangeEnergyConsompution(2);
         ChangeBrainPowerValue(2);
         UpdateEnergyValues();
         TechPanel.ChangeTechPointValue(0);
+
+
 
         //TechPanel.ChangeTechPointValue(techPointValue);
 
         //UICanvas.ChangeBrainPowerValue(instance.c);
     }
-	
+
+    protected float timePassed = 0;
+
 	// Update is called once per frame
 	void Update () {
+
+        timePassed += Time.deltaTime;
+
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            AddTechPoints(Human.HumanPopulation);
+        }
+
+        //Debug.Log(Random.Range(0.0f, 1.0f) + " " + TechModule.TechInfos[TechModule.CrtTechLevel].PopulationGrowthPerSecond * Time.deltaTime);
+
+        if (Random.Range(0.0f, 1.0f) < TechModule.TechInfos[TechModule.CrtTechLevel].PopulationGrowthPerSecond * Time.deltaTime)
+        {
+            //Debug.Log(Random.Range(0.0f, 1.0f));
+            //Debug.Log(TechModule.TechInfos[TechModule.CrtTechLevel].PopulationGrowthPerSecond * Time.deltaTime);
+
+            TechInfo crtTechInfo = TechModule.TechInfos[TechModule.CrtTechLevel];
+            int unitToGenerate = (int) ((float)Human.HumanPopulation * TechModule.TechInfos[TechModule.CrtTechLevel].PopulationGrowthMul);
+
+            if (TechModule.CrtTechLevel == 4)
+            {
+                PlacementModule.Generate(5, 1, true);
+            }
+            else if (TechModule.CrtTechLevel == 3)
+            {
+                PlacementModule.Generate(4, 1, true);
+            }
+            else if (TechModule.CrtTechLevel == 2)
+            {
+                PlacementModule.Generate(3, 1, true);
+            }
+            else if (TechModule.CrtTechLevel == 1)
+            {
+                PlacementModule.Generate(2, 1, true);
+            }
+
+            PlacementModule.Generate(1, unitToGenerate+1, true);
+
+            ChangeEnergyConsompution(Human.HumanPopulation * crtTechInfo.EnergyConsumptionPerPopulation);
+            ChangeBrainPowerValue(Human.HumanPopulation);
+            UpdateEnergyValues();
+
+        }
+
+
 
         //if (Input.GetMouseButtonDown(0))
         //{
@@ -100,13 +151,19 @@ public class GameModule : Zac.ZacGOSingleton<GameModule>
         UICanvas.ChangeBrainPowerValue(instance.brainPowerValue);
     }
 
-    public static void CaptureEnergy(int _value)
-    {
-        instance.naturalEnergyValue -= _value;
-        instance.capturedEnergyValue += _value;
+    //public static void CaptureEnergy(int _value)
+    //{
+    //    instance.naturalEnergyValue -= _value;
+    //    instance.capturedEnergyValue += _value;
 
-        UICanvas.ChangeNaturalEnergyValue(instance.naturalEnergyValue);
-        UICanvas.ChangeCapturedEnergyValue(instance.capturedEnergyValue);
+    //    UICanvas.ChangeNaturalEnergyValue(instance.naturalEnergyValue);
+    //    UICanvas.ChangeCapturedEnergyValue(instance.capturedEnergyValue);
+    //}
+
+    public static void ChangeEnergyConsompution(int _value)
+    {
+        instance.naturalEnergyValue = instance.ori_naturalEnergyValue - _value;
+        instance.capturedEnergyValue = instance.ori_capturedEnergyValue + _value;
     }
 
     public static void ChangeBrainPowerValue(int _value)
@@ -126,6 +183,8 @@ public class GameModule : Zac.ZacGOSingleton<GameModule>
     {
         instance.techPointValue += _value;
         TechPanel.ChangeTechPointValue(instance.techPointValue);
+
+        TechPanel.UpdateTechList();
     }
 
 }

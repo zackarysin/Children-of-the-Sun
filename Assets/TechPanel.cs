@@ -11,7 +11,7 @@ public class TechPanel : Zac.ZacGOSingleton<TechPanel> {
     protected Button techBtn;
     protected GridLayoutGroup techGridLayout;
 
-    protected Button[] inventTechButtons;
+    protected CotSButton[] inventTechButtons;
 
     protected bool isTechListShown
     {
@@ -27,8 +27,9 @@ public class TechPanel : Zac.ZacGOSingleton<TechPanel> {
 
     protected override void set()
     {
-        //base.set();
+
         establishZacSingleton(this);
+
         techList = transform.Find("TechList");
         techBtn = transform.Find("TechBtn").GetComponent<Button>();
         techListPos = techList.localPosition;
@@ -37,13 +38,14 @@ public class TechPanel : Zac.ZacGOSingleton<TechPanel> {
 
         techList.gameObject.SetActive(false);
 
-        inventTechButtons = new Button[TechModule.TechInfos.Length];
+        inventTechButtons = new CotSButton[TechModule.TechInfos.Length];
 
         for(int i=0; i< inventTechButtons.Length; i++)
         {
-            inventTechButtons[i] = techGridLayout.transform.Find(i.ToString()).GetComponent<Button>();
+            inventTechButtons[i] = techGridLayout.transform.Find(i.ToString()).GetComponent<CotSButton>();
+            inventTechButtons[i].ReportSet();
             int idxCache = i;
-            inventTechButtons[i].onClick.AddListener(() =>
+            inventTechButtons[i].Button.onClick.AddListener(() =>
             {
                 handleOnInventTechButtonClicked(idxCache);
             });
@@ -97,6 +99,45 @@ public class TechPanel : Zac.ZacGOSingleton<TechPanel> {
     public static void ChangeTechPointValue(int _idx)
     {
         instance.techPointText.text = _idx.ToString();
+    }
+
+    public static void UpdateTechList()
+    {
+        if (TechModule.IsTechInvented(0) && !TechModule.IsTechInvented(1))
+        {
+            if (TechModule.TechInfos[1].TechCost <= GameModule.TechPointValue)
+            {
+                instance.inventTechButtons[1].ChangeSprite(1);
+            }
+        }
+        else if (TechModule.IsTechInvented(1) && !TechModule.IsTechInvented(2))
+        {
+            if (TechModule.TechInfos[2].TechCost <= GameModule.TechPointValue)
+            {
+                instance.inventTechButtons[2].ChangeSprite(1);
+            }
+        }
+        else if (TechModule.IsTechInvented(2) && !TechModule.IsTechInvented(3))
+        {
+            if (TechModule.TechInfos[3].TechCost <= GameModule.TechPointValue)
+            {
+                instance.inventTechButtons[3].ChangeSprite(1);
+            }
+        }
+        else if (TechModule.IsTechInvented(3) && !TechModule.IsTechInvented(4))
+        {
+            if (TechModule.TechInfos[4].TechCost <= GameModule.TechPointValue)
+            {
+                instance.inventTechButtons[4].ChangeSprite(1);
+            }
+        }
+
+    }
+
+    public static void DisableInventTech(int _techIdx)
+    {
+        instance.inventTechButtons[_techIdx].ChangeSprite(2);
+        instance.inventTechButtons[_techIdx].Button.enabled = false;
     }
 
 }

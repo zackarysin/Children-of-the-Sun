@@ -5,6 +5,15 @@ using UnityEngine.UI;
 
 public class Human : Agent {
 
+    protected static int humanPopulation = 0;
+    public static int HumanPopulation
+    {
+        get
+        {
+            return humanPopulation;
+        }
+    }
+
     [SerializeField]
     protected float thinkStepTime = 1.5f;
     [SerializeField]
@@ -20,6 +29,8 @@ public class Human : Agent {
         myCanvas = GetComponentInChildren<Canvas>();
         speechBubble = myCanvas.transform.Find("speechBubble").GetComponent<Image>();
         speechBubbleContent = speechBubble.transform.Find("speechBubbleContent").GetComponent<Image>();
+
+        humanPopulation += 1;
     }
 
     protected float GetThisThinkStepTime()

@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: df795aa7e96fc77439bb57953f89e092
+timeCreated: 1517101890
+licenseType: Pro
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: appo paint
+  fontNames:
+  - appo paint
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

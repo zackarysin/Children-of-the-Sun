@@ -16,6 +16,8 @@ public class TechInfo
             return techCost;
         }
     }
+
+
     [SerializeField]
     protected int energyCaptured = 1;
     public int EnergyCaptured
@@ -27,6 +29,37 @@ public class TechInfo
     }
     [HideInInspector]
     public bool isInvented = false;
+
+    [SerializeField]
+    protected float populationGrowthPerSecond = 0;
+    public float PopulationGrowthPerSecond
+    {
+        get
+        {
+            return populationGrowthPerSecond;
+        }
+    }
+
+    [SerializeField]
+    protected int energyConsumptionPerPopulation = 1;
+    public int EnergyConsumptionPerPopulation
+    {
+        get
+        {
+            return energyConsumptionPerPopulation;
+        }
+    }
+
+    [SerializeField]
+    protected float populationGrowthMul = 1;
+    public float PopulationGrowthMul
+    {
+        get
+        {
+            return populationGrowthMul;
+        }
+    }
+
 }
 
 public class TechModule : Zac.ZacGOSingleton<TechModule> {
@@ -40,9 +73,18 @@ public class TechModule : Zac.ZacGOSingleton<TechModule> {
             return instance.techInfos;
         }
     }
+    protected int crtTechLevel = 0;
+    public static int CrtTechLevel
+    {
+        get
+        {
+            return instance.crtTechLevel;
+        }
+    }
 
-	// Use this for initialization
-	void Start () {
+
+    // Use this for initialization
+    void Start () {
 		
 	}
 	
@@ -54,27 +96,33 @@ public class TechModule : Zac.ZacGOSingleton<TechModule> {
     public static void InventTech(int _techID)
     {
         TechInfo thisTech = instance.techInfos[_techID];
-        GameModule.CaptureEnergy(thisTech.EnergyCaptured);
+        
         GameModule.UseTechPoints(thisTech.TechCost);
         thisTech.isInvented = true;
 
-        if(_techID == 0)
-        {
-            PlacementModule.Generate(2, 4, true);
-            PlacementModule.Generate(1, 4, true);
-        }
+        TechPanel.DisableInventTech(_techID);
 
+        instance.crtTechLevel = _techID;
     }
+
+
 
     public static bool IsTechInvented(int _techID)
     {
         return instance.techInfos[_techID].isInvented;
     }
 
+    //public static bool IsTechCanInvent(int _techID)
+    //{
+    //    return !instance.techInfos[_techID].isInvented;
+    //}
+
     protected override void set()
     {
         //base.set();
         establishZacSingleton(this);
+
+        GameObject.Find("TechPanel").GetComponent<TechPanel>().ReportSet();
     }
 
 }
